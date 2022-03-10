@@ -13,6 +13,8 @@
 
 
 
+  Heavily cribbed from Rev Robotics source code
+  git@github.com:REVrobotics/Color-Sensor-v3.git 
 
 
 
