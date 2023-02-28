@@ -1,4 +1,5 @@
 # if you’re not sure which board tag you need, make show_boards
+# and use make show_submenu for board subs
 # will dump a full list:
 # -------------------------
 # atmegang            Arduino NG or older
@@ -34,9 +35,9 @@
 #include /usr/share/arduino/Arduino.mk
 
 # --- mega2560 ide 1.6
-BOARD_TAG    = mega
-BOARD_SUB    = atmega2560
-MONITOR_PORT = /dev/ttyACM0
+#BOARD_TAG    = mega
+#BOARD_SUB    = atmega2560
+#MONITOR_PORT = /dev/ttyACM0
 #ARDUINO_DIR  = /where/you/installed/arduino-1.6.5
 #include /usr/share/arduino/Arduino.mk
 
@@ -51,6 +52,17 @@ MONITOR_PORT = /dev/ttyACM0
 
 #BOARD_TAG    = ethernet
 #ARDUINO_PORT = /dev/ttyUSB*
+
+#
+# I had to use the "old" boatloader with the nano i have
+# jsa -2023
+# --- nano
+BOARD_TAG    = nano
+BOARD_SUB    = atmega328old
+MONITOR_PORT = /dev/ttyUSB0
+#ARDUINO_DIR  = /where/you/installed/arduino-1.6.5
+#include /usr/share/arduino/Arduino.mk
+
 
 AVRDUDE_CONF   = /etc/avrdude.conf
 # ARDUINO_DIR = /usr/share/arduino is the default
