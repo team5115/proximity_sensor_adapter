@@ -4,10 +4,18 @@
 namespace APDS_9151
 {
 
-    const int i2c_address = 0x52;
-
     // the enum class is a c++11 scoped enumerations these will have type
     // of the class name and will need to be cast to uint8_t
+
+    enum class GAIN_FACTOR
+    {
+        k1x = 0,
+        k3x = 1,
+        k6x = 2,
+        k9x = 3,
+        k18x = 4
+    };
+
     enum class LED_PULSE_FREQUENCY
     {
         f_60_kHz = 0x18,
@@ -117,7 +125,7 @@ namespace APDS_9151
         rgb_mode = 0x04
     };
 
-    enum class color_resolution_t
+    enum class COLOR_RESOLUTION
     {
         k20bit = 0x00,
         k19bit = 0x10,
@@ -127,7 +135,7 @@ namespace APDS_9151
         k13bit = 0x50,
     };
 
-    enum class color_measurement_rate_t
+    enum class COLOR_MEASUREMENT_RATE
     {
         k25ms = 0,
         k50ms = 1,
@@ -138,14 +146,25 @@ namespace APDS_9151
         k2000ms = 7,
     };
 
-    // This is a transformation matrix given by the chip
-    // manufacturer to transform the raw RGB to CIE XYZ
-    constexpr double Cmatrix[9] =
-    {
-        0.048112847, 0.289453437, -0.084950826,
-        -0.030754752, 0.339680186, -0.071569905,
-        -0.093947499, 0.072838494,  0.34024948
-    };
+    // // This is a transformation matrix given by the chip
+    // // manufacturer to transform the raw RGB to CIE XYZ
+    // constexpr double Cmatrix[9] =
+    // {
+    //     0.048112847, 0.289453437, -0.084950826,
+    //     -0.030754752, 0.339680186, -0.071569905,
+    //     -0.093947499, 0.072838494,  0.34024948
+    // };
+
+    const int i2c_address = 0x52;
+    //  static constexpr int kExpectedPartID = 0xC2;
+    static constexpr auto default_gain = GAIN_FACTOR::k3x;
+    // static constexpr LEDPulseFrequency kDefaultPulseFreq = LEDPulseFrequency::k60kHz;
+    // static constexpr LEDCurrenT kDefaultLEDCurrent = LEDCurrent::kPulse100mA;
+    // static constexpr uint8_t kDefaultPulses = 32;
+    // static constexpr ProximityResolution kDefaultProxRes = ProximityResolution::k11bit;
+    // static constexpr ProximityMeasurementRate kDefaultProxRate = ProximityMeasurementRate::k50ms;
+    static constexpr auto default_color_resolution = COLOR_RESOLUTION::k18bit;
+    static constexpr auto default_color_rate = COLOR_MEASUREMENT_RATE::k100ms;
 
 }                                                 // end of namespace
 #endif

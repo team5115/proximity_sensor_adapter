@@ -24,8 +24,9 @@ values out of prox sensor (assuming 11 bit mode):
 #include "i2c_interface.h"
 #include "bit_conversion_utils.h"
 #include "apds_9151_constants.h"
+#include "apds_9151_base_device.h"
 
-class proximity_sensor
+class proximity_sensor: public apds_9151_base_device
 {
 
     public:
@@ -34,13 +35,13 @@ class proximity_sensor
         void setup(void);
 
     protected:
-        i2c_interface the_i2c_interface;
+        // i2c_interface the_i2c_interface;
         const int n_bits_read_out;
 
-        void write_register(APDS_9151::REGISTERS reg, uint8_t data);
+        // void write_register(APDS_9151::REGISTERS reg, uint8_t data);
 
-        uint32_t read_20_bit_register(APDS_9151::REGISTERS reg);
-        uint16_t read_11_bit_register(APDS_9151::REGISTERS reg);
+        // uint32_t read_20_bit_register(APDS_9151::REGISTERS reg);
+        // uint16_t read_11_bit_register(APDS_9151::REGISTERS reg);
 
     public:
         void enable_proximity_sensor_and_color_sensor(void);

@@ -1,0 +1,114 @@
+#include <Arduino.h>
+#include "version.h"
+#include "digital_io.h"
+#include "proximity_sensor.h"
+#include "color_sensor_v3.h"
+#include "ncolor.h"
+
+#define SERIAL_DEBUG_ENABLED
+
+// this is the pin the arduino will output on
+// this is the digital pin
+// so 7 is digital 7 or D7
+const int output_pin_number_red=7;
+const int output_pin_number_green=8;
+const int output_pin_number_blue=9;
+
+// this is the proximity sensor threshold where the arduino says there
+// is a ball
+// close is 2047, far is 0
+//
+uint16_t threshold=512;
+
+// construct the proximity_sensor object and output pins
+color_sensor_v3 the_color_sensor;
+
+digital_io output_pin_red(output_pin_number_red, OUTPUT);
+digital_io output_pin_green(output_pin_number_green, OUTPUT);
+digital_io output_pin_blue(output_pin_number_blue, OUTPUT);
+
+digital_io the_led(13, OUTPUT);
+
+#ifdef SERIAL_DEBUG_ENABLED
+uint16_t serial_debug_counter=0;
+#endif
+
+void setup()
+{
+
+    Wire.begin();
+
+    #ifdef SERIAL_DEBUG_ENABLED
+    Serial.begin(115200);
+    #endif
+
+    //////////////////////////////////////////////////////
+    //
+    // setup the hardware
+    //
+    ///////////////////////////////////////////////////
+    the_color_sensor.setup();
+
+    output_pin_red.setup();
+    output_pin_green.setup();
+    output_pin_blue.setup();
+    the_led.setup();
+
+    //const auto close_value=the_color_sensor.get_proximity_value_close();
+    //const auto far_value=the_color_sensor.get_proximity_value_far();
+    //threshold=fabs((far_value-close_value)/2);
+    //    threshold=512;
+}
+
+
+void loop()
+{
+
+    raw_color_t the_raw_color=the_color_sensor.get_raw_color();
+    // the sensor has an inverse response
+    ncolor_t the_color(the_raw_color);
+
+    auto r_red=the_raw_color.red;
+    auto r_green=the_raw_color.green;
+    auto r_blue=the_raw_color.blue;
+    auto r_ir=the_raw_color.ir;
+
+    auto red=the_color.red;
+    auto green=the_color.green;
+    auto blue=the_color.blue;
+
+    output_pin_red.set_value(red>threshold);
+    output_pin_green.set_value(blue>threshold);
+    output_pin_blue.set_value(green>threshold);
+
+    the_led.set_value(red>threshold);
+
+    #ifdef SERIAL_DEBUG_ENABLED
+    if ((serial_debug_counter++ % 1000)==0)
+    {
+        Serial.print(static_cast<int>(serial_debug_counter));
+        Serial.print(":");
+        Serial.print(" RAW=");
+        Serial.print("(");
+        Serial.print(r_red);
+        Serial.print(",");
+        Serial.print(r_green);
+        Serial.print(",");
+        Serial.print(r_blue);
+        Serial.print(",");
+        Serial.print(r_ir);
+        Serial.print(")");
+        Serial.print("\t Norm=");
+        Serial.print("(");
+        Serial.print(red);
+        Serial.print(",");
+        Serial.print(green);
+        Serial.print(",");
+        Serial.print(blue);
+        Serial.print(")");
+        Serial.println();
+    }
+    // prints another carriage return
+    #endif
+
+}

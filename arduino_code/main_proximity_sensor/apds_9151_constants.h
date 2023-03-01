@@ -54,7 +54,16 @@ namespace APDS_9151
         reg_proximity_sensor_led = 0x01,
         reg_proximity_sensor_pulses = 0x02,
         reg_proximity_sensor_rate = 0x03,
+        reg_light_sensor_measurement_rate = 0x04,
+        reg_light_sensor_gain = 0x05,
+        reg_part_id = 0x06,
+        reg_main_status = 0x07,
         reg_proximity_data = 0x08,
+        reg_data_infrared = 0x0A,
+        reg_data_green = 0x0D,
+        reg_data_blue = 0x10,
+        reg_data_red = 0x13
+
     };
 
     /*
@@ -106,6 +115,36 @@ namespace APDS_9151
         proximity_sensor_enable = 0x01,
         light_sensor_enable = 0x02,
         rgb_mode = 0x04
+    };
+
+    enum class color_resolution_t
+    {
+        k20bit = 0x00,
+        k19bit = 0x10,
+        k18bit = 0x20,
+        k17bit = 0x30,
+        k16bit = 0x40,
+        k13bit = 0x50,
+    };
+
+    enum class color_measurement_rate_t
+    {
+        k25ms = 0,
+        k50ms = 1,
+        k100ms = 2,
+        k200ms = 3,
+        k500ms = 4,
+        k1000ms = 5,
+        k2000ms = 7,
+    };
+
+    // This is a transformation matrix given by the chip
+    // manufacturer to transform the raw RGB to CIE XYZ
+    constexpr double Cmatrix[9] =
+    {
+        0.048112847, 0.289453437, -0.084950826,
+        -0.030754752, 0.339680186, -0.071569905,
+        -0.093947499, 0.072838494,  0.34024948
     };
 
 }                                                 // end of namespace

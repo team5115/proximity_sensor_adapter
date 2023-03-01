@@ -15,37 +15,26 @@ void color_sensor_v3::setup(void)
 
     enable_color_sensor();
 
-    const auto color_resolution=APDS_9151::default_color_resolution;
-    const auto color_measurement_rate=APDS_9151::default_color_rate;
+    const auto color_resolution=APDS_9151::color_resolution_t::k13bit;
+    const auto color_measurement_rate=APDS_9151::color_measurement_rate_t::k100ms;
 
     configure_color_sensor(color_resolution,color_measurement_rate);
 
-    const auto gain=APDS_9151::default_gain;
-    set_light_sensor_gain(gain);
 }
 
 
 void color_sensor_v3::enable_color_sensor(void)
 {
-    const auto datum=(static_cast<uint8_t>(APDS_9151::CTRL_FIELDS::rgb_mode)|
-        static_cast<uint8_t>(APDS_9151::CTRL_FIELDS::light_sensor_enable) |
-        static_cast<uint8_t>(APDS_9151::CTRL_FIELDS::proximity_sensor_enable));
-
+    const auto datum=static_cast<uint8_t>(APDS_9151::CTRL_FIELDS::rgb_mode);
     write_register(APDS_9151::REGISTERS::reg_main_ctrl, datum);
 }
 
 
-void color_sensor_v3::configure_color_sensor(APDS_9151::COLOR_RESOLUTION res, APDS_9151::COLOR_MEASUREMENT_RATE rate)
+void color_sensor_v3::configure_color_sensor(APDS_9151::color_resolution_t res, APDS_9151::color_measurement_rate_t rate)
 {
 
     const auto merged_data= (static_cast<uint8_t>(res) |  static_cast<uint8_t>(rate));
     write(APDS_9151::REGISTERS::reg_light_sensor_measurement_rate, merged_data);
-}
-
-
-void color_sensor_v3::set_light_sensor_gain(APDS_9151::GAIN_FACTOR gain)
-{
-    write(APDS_9151::REGISTERS::reg_light_sensor_gain, static_cast<uint8_t>(gain));
 }
 
 

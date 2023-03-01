@@ -29,14 +29,13 @@ class color_sensor_v3 : public apds_9151_base_device
 {
 
     public:
-        //color_sensor_v3(void);
+        color_sensor_v3(void);
 
         void setup(void);
 
     public:
         void enable_color_sensor(void);
-        void configure_color_sensor(APDS_9151::COLOR_RESOLUTION res, APDS_9151::COLOR_MEASUREMENT_RATE rate);
-        void set_light_sensor_gain(APDS_9151::GAIN_FACTOR gain);
+        void configure_color_sensor(APDS_9151::color_resolution_t res, APDS_9151::color_measurement_rate_t rate);
 
         raw_color_t get_raw_color();
 

@@ -1,7 +1,6 @@
 #include "proximity_sensor.h"
 
 proximity_sensor::proximity_sensor(void):
-the_i2c_interface(APDS_9151::i2c_address),
 n_bits_read_out(11)                               // currently supports only 11 bit read out
 {
 
@@ -10,8 +9,11 @@ n_bits_read_out(11)                               // currently supports only 11 
 
 void proximity_sensor::setup(void)
 {
+    //using namespace APDS_9151;
+    apds_9151_base_device::setup();
+
     using namespace APDS_9151;
-    the_i2c_interface.setup();
+    //the_i2c_interface.setup();
 
     enable_proximity_sensor_only();
 
@@ -79,18 +81,17 @@ uint32_t proximity_sensor::get_proximity()
 }
 
 
-void proximity_sensor::write_register(APDS_9151::REGISTERS reg, uint8_t data)
-{
-    return the_i2c_interface.write_byte(static_cast<uint8_t>(reg), data);
-}
+// void proximity_sensor::write_register(APDS_9151::REGISTERS reg, uint8_t data)
+// {
+//     return the_i2c_interface.write_byte(static_cast<uint8_t>(reg), data);
+// }
 
+// uint16_t proximity_sensor::read_11_bit_register(APDS_9151::REGISTERS reg)
+// {
+//     uint8_t raw[2];
+//     const int n_bytes=2;
 
-uint16_t proximity_sensor::read_11_bit_register(APDS_9151::REGISTERS reg)
-{
-    uint8_t raw[2];
-    const int n_bytes=2;
+//     the_i2c_interface.read_bytes(static_cast<uint8_t>(reg), raw, n_bytes);
 
-    the_i2c_interface.read_bytes(static_cast<uint8_t>(reg), raw, n_bytes);
-
-    return to_11_bit(raw);
-}
+//     return to_11_bit(raw);
+// }
