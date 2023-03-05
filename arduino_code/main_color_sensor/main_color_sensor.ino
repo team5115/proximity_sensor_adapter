@@ -38,8 +38,21 @@ void setup()
 
     Wire.begin();
 
+    // for the Arduino Zero serial ports on complicated
+    //  Serial - Programming Port (the path is SAMD->uart->EDBG->usb->PC)
+    //  Serial1 - Serial uart on pins 0 and 1
+    //  SerialUSB - Native Port, this is an emulated serial port (USB-CDC)
+    //
+    // I've only been succesful in uploading this via the native USB port
+    // using the arduino ide. both 1de v1.8 and v2.x seem to work
+    //
+    // I use serialUSB so the serial debug messages are on the same cable as
+    // the programming cable
+    
     #ifdef SERIAL_DEBUG_ENABLED
-    Serial.begin(115200);
+    //Serial.begin(115200);
+    //Serial.begin(9600);
+    SerialUSB.begin(115200);
     #endif
 
     //////////////////////////////////////////////////////
@@ -86,27 +99,27 @@ void loop()
     #ifdef SERIAL_DEBUG_ENABLED
     if ((serial_debug_counter++ % 1000)==0)
     {
-        Serial.print(static_cast<int>(serial_debug_counter));
-        Serial.print(":");
-        Serial.print(" RAW=");
-        Serial.print("(");
-        Serial.print(r_red);
-        Serial.print(",");
-        Serial.print(r_green);
-        Serial.print(",");
-        Serial.print(r_blue);
-        Serial.print(",");
-        Serial.print(r_ir);
-        Serial.print(")");
-        Serial.print("\t Norm=");
-        Serial.print("(");
-        Serial.print(red);
-        Serial.print(",");
-        Serial.print(green);
-        Serial.print(",");
-        Serial.print(blue);
-        Serial.print(")");
-        Serial.println();
+        SerialUSB.print(static_cast<int>(serial_debug_counter));
+        SerialUSB.print(":");
+        SerialUSB.print(" RAW=");
+        SerialUSB.print("(");
+        SerialUSB.print(r_red);
+        SerialUSB.print(",");
+        SerialUSB.print(r_green);
+        SerialUSB.print(",");
+        SerialUSB.print(r_blue);
+        SerialUSB.print(",");
+        SerialUSB.print(r_ir);
+        SerialUSB.print(")");
+        SerialUSB.print("\t Norm=");
+        SerialUSB.print("(");
+        SerialUSB.print(red);
+        SerialUSB.print(",");
+        SerialUSB.print(green);
+        SerialUSB.print(",");
+        SerialUSB.print(blue);
+        SerialUSB.print(")");
+        SerialUSB.println();
     }
     // prints another carriage return
     #endif
