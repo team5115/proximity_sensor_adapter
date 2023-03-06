@@ -84,7 +84,7 @@ ARDMK_DIR = ../lib/Arduino-Makefile
 #ARDUINO_LIBS = Ethernet2-adafruit/src Ethernet2-adafruit/src/utility SPI Servo avr-stl-jsa-patched/include gsd_arduino_utils/src lib/ArduinoSTL/src
 
 #ARDUINO_LIBS = SPI Servo Wire ArduinoSTL
-ARDUINO_LIBS = SPI Servo Wire
+ARDUINO_LIBS = SPI Servo Wire SoftwareSerial
 
 # SoftwareSerial SoftwareSerial/utility
 USER_LIB_PATH := $(realpath ../lib)

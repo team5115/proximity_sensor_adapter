@@ -40,5 +40,8 @@ class color_sensor_v3 : public apds_9151_base_device
 
         raw_color_t get_raw_color();
 
+        const static int n_bytes=12;
+        uint8_t raw_buffer[n_bytes];
+
 };
 #endif

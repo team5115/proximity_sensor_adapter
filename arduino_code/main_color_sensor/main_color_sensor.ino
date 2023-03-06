@@ -6,7 +6,8 @@
 #include "ncolor.h"
 
 #define SERIAL_DEBUG_ENABLED
-
+#define SerialPort SerialUSB
+//#define SerialPort Serial
 // this is the pin the arduino will output on
 // this is the digital pin
 // so 7 is digital 7 or D7
@@ -48,11 +49,11 @@ void setup()
     //
     // I use serialUSB so the serial debug messages are on the same cable as
     // the programming cable
-    
+
     #ifdef SERIAL_DEBUG_ENABLED
     //Serial.begin(115200);
     //Serial.begin(9600);
-    SerialUSB.begin(115200);
+    SerialPort.begin(115200);
     #endif
 
     //////////////////////////////////////////////////////
@@ -99,27 +100,44 @@ void loop()
     #ifdef SERIAL_DEBUG_ENABLED
     if ((serial_debug_counter++ % 1000)==0)
     {
-        SerialUSB.print(static_cast<int>(serial_debug_counter));
-        SerialUSB.print(":");
-        SerialUSB.print(" RAW=");
-        SerialUSB.print("(");
-        SerialUSB.print(r_red);
-        SerialUSB.print(",");
-        SerialUSB.print(r_green);
-        SerialUSB.print(",");
-        SerialUSB.print(r_blue);
-        SerialUSB.print(",");
-        SerialUSB.print(r_ir);
-        SerialUSB.print(")");
-        SerialUSB.print("\t Norm=");
-        SerialUSB.print("(");
-        SerialUSB.print(red);
-        SerialUSB.print(",");
-        SerialUSB.print(green);
-        SerialUSB.print(",");
-        SerialUSB.print(blue);
-        SerialUSB.print(")");
-        SerialUSB.println();
+
+        SerialPort.print("\n");
+        for(size_t i=0; i < the_color_sensor.n_bytes; i++)
+        {
+            uint8_t x_i=the_color_sensor.raw_buffer[i];
+
+            ;
+            //SerialPort.print(i);
+            //SerialPort.print(i);
+            SerialPort.print("[0x");
+            SerialPort.print(x_i,HEX);
+            SerialPort.print("]");
+
+        }
+
+        SerialPort.print("\n");
+
+        SerialPort.print(static_cast<int>(serial_debug_counter));
+        SerialPort.print(":");
+        SerialPort.print(" RAW=");
+        SerialPort.print("(");
+        SerialPort.print(r_red);
+        SerialPort.print(",");
+        SerialPort.print(r_green);
+        SerialPort.print(",");
+        SerialPort.print(r_blue);
+        SerialPort.print(",");
+        SerialPort.print(r_ir);
+        SerialPort.print(")");
+        SerialPort.print("\t Norm=");
+        SerialPort.print("(");
+        SerialPort.print(red);
+        SerialPort.print(",");
+        SerialPort.print(green);
+        SerialPort.print(",");
+        SerialPort.print(blue);
+        SerialPort.print(")");
+        SerialPort.println();
     }
     // prints another carriage return
     #endif

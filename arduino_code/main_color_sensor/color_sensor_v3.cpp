@@ -49,11 +49,28 @@ void color_sensor_v3::set_light_sensor_gain(APDS_9151::GAIN_FACTOR gain)
 }
 
 
+// void color_sensor_v3::read_raw_color_into_buffer(void)
+// {
+
+//     const int n_bytes=12;
+//     uint8_t raw_buffer[n_bytes];
+
+//     const auto reg=APDS_9151::REGISTERS::reg_data_infrared;
+
+//     read(reg, n_bytes, raw_buffer);
+
+// }
+
 raw_color_t color_sensor_v3::get_raw_color()
 {
 
-    const int n_bytes=12;
-    uint8_t raw_buffer[n_bytes];
+    // const int n_bytes=12;
+    // uint8_t raw_buffer[n_bytes];
+
+    for(size_t i=0; i < n_bytes; i++)
+    {
+        raw_buffer[i]=0x99;
+    }
 
     const auto reg=APDS_9151::REGISTERS::reg_data_infrared;
 
